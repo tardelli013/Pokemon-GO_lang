@@ -1,0 +1,107 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Example of ports and adapters architecture with Golang.",
+        "title": "Pokemon GO lang",
+        "termsOfService": "https://google.com",
+        "contact": {
+            "name": "Tardelli Moura",
+            "url": "https://google.com",
+            "email": "tardelli.m@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/healthz": {
+            "get": {
+                "description": "Responds running",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "healthZ"
+                ],
+                "summary": "healthz",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/pokemon": {
+            "get": {
+                "description": "Get all pokemons in database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pokemon"
+                ],
+                "summary": "Get all pokemons in database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.PokemonRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Find pokemon by name and save in database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pokemon"
+                ],
+                "summary": "Find pokemon by name and save in database",
+                "parameters": [
+                    {
+                        "description": "Operations JSON",
+                        "name": "operations",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.PokemonRequest"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.PokemonRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.PokemonRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

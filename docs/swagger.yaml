@@ -1,0 +1,71 @@
+basePath: /api/v1
+definitions:
+  domain.PokemonRequest:
+    properties:
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: tardelli.m@gmail.com
+    name: Tardelli Moura
+    url: https://google.com
+  description: Example of ports and adapters architecture with Golang.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://google.com
+  title: Pokemon GO lang
+  version: "1.0"
+paths:
+  /healthz:
+    get:
+      description: Responds running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: healthz
+      tags:
+      - healthZ
+  /pokemon:
+    get:
+      description: Get all pokemons in database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.PokemonRequest'
+            type: array
+      summary: Get all pokemons in database
+      tags:
+      - Pokemon
+    post:
+      description: Find pokemon by name and save in database
+      parameters:
+      - description: Operations JSON
+        in: body
+        name: operations
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/domain.PokemonRequest'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.PokemonRequest'
+            type: array
+      summary: Find pokemon by name and save in database
+      tags:
+      - Pokemon
+swagger: "2.0"
