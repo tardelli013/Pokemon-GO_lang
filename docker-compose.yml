@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+
+  dynamo:
+    image:  amazon/dynamodb-local
+    container_name: pokemon-dynamodb
+    hostname: localhost
+    #restart: always
+    volumes:
+      - ./dynamodb:/dynamodb
+    environment:
+      - reschedule=on-node-failure
+    ports:
+      - 8000:8000
+    command: -jar DynamoDBLocal.jar -sharedDb
+
+  init-dynamodb-tables:
+    image: garland/aws-cli-docker
+    command:
+      - sh
+      - -c
+      - |
+        aws dynamodb create-table --table-name pokemon --attribute-definitions AttributeName=id,AttributeType=N --key-schema AttributeName=id,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --endpoint-url http://dynamo:8000
+    links:
+      - dynamo
+    environment:
+      - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=ABCD
+      - AWS_SECRET_ACCESS_KEY=0123
+      - AWS_DEFAULT_REGION=us-east-1
