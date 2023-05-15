@@ -49,6 +49,7 @@ func runWithTerminalScan(useCase ports.PokemonUseCase) {
 	}
 
 	//mudar depois
+
 	print(operationsFromScan)
 
 	feeResults, err := useCase.GetAllPokemons()
