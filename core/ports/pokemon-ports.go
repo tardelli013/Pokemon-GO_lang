@@ -1,8 +1,11 @@
 package ports
 
-import "pokemon-golang/core/domain"
+import (
+	"pokemon-golang/adapter/out"
+	"pokemon-golang/core/domain"
+)
 
 type PokemonUseCase interface {
-	SavePokemon(pokemons []*domain.PokemonRequest) (interface{}, error)
+	SavePokemon(pokemons []*domain.PokemonRequest, pokedexAdapter out.PokedexAdapter) (interface{}, error)
 	GetAllPokemons() (interface{}, error)
 }

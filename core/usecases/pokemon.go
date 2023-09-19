@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"pokemon-golang/adapter/out"
 	"pokemon-golang/core/domain"
 	"pokemon-golang/core/ports"
 )
@@ -12,8 +13,14 @@ func NewPokemonUseCase() ports.PokemonUseCase {
 	return &PokemonUseCase{}
 }
 
-func (p PokemonUseCase) SavePokemon(pokemons []*domain.PokemonRequest) (interface{}, error) {
-	return pokemons, nil
+func (p PokemonUseCase) SavePokemon(pokemons []*domain.PokemonRequest, pokedexAdapter *out.PokedexAdapter) (interface{}, error) {
+	resp, err := pokedexAdapter.GetPokemonByName("pikachu")
+
+	if err != nil {
+		println(resp)
+	}
+
+	return resp, nil
 }
 
 func (p PokemonUseCase) GetAllPokemons() (interface{}, error) {

@@ -2,6 +2,7 @@ package adapter
 
 import (
 	"net/http"
+	"pokemon-golang/adapter/out"
 	"pokemon-golang/core/domain"
 	"pokemon-golang/core/ports"
 	_ "pokemon-golang/docs"
@@ -49,6 +50,7 @@ func healthz(g *gin.RouterGroup) gin.IRoutes {
 // @Success      200   {array}  domain.PokemonRequest
 // @Router       /pokemon [post]
 func findPokemonByNameAndSave(useCase ports.PokemonUseCase, g *gin.RouterGroup) gin.IRoutes {
+	pokedexAdapter := out.NewPokedexAdapter()
 	return g.POST("/pokemon", func(c *gin.Context) {
 		var input []*domain.PokemonRequest
 
@@ -60,7 +62,7 @@ func findPokemonByNameAndSave(useCase ports.PokemonUseCase, g *gin.RouterGroup) 
 			return
 		}
 
-		result, err := useCase.SavePokemon(input)
+		result, err := useCase.SavePokemon(input, pokedexAdapter)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": err.Error(),
